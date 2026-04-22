@@ -18,32 +18,33 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-bg flex items-center justify-center p-6">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-block">
-            <div className="text-2xl font-bold text-brand">えん人 LMS</div>
-            <div className="text-xs text-text-muted mt-1">受講者ログイン</div>
-          </Link>
-        </div>
+      <div className="w-full max-w-sm">
+        <Link href="/" className="flex items-center gap-2 justify-center mb-10">
+          <div className="w-6 h-6 bg-brand rounded" />
+          <div className="text-sm font-semibold tracking-tight">Enjin LMS</div>
+        </Link>
 
-        <div className="bg-surface border border-border-default rounded-lg shadow-sm p-8">
-          <form onSubmit={onSubmit} className="space-y-5">
+        <div className="bg-surface border border-border-default rounded-md p-8">
+          <h1 className="text-lg font-semibold text-text mb-1">ログイン</h1>
+          <p className="text-xs text-text-secondary mb-6">受講者アカウントでサインインしてください。</p>
+
+          <form onSubmit={onSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-text mb-1.5">受講者ID (メールアドレス)</label>
+              <label className="block text-xs font-medium text-text-secondary mb-1.5">メールアドレス</label>
               <input
                 type="email"
                 value={id}
                 onChange={(e) => setId(e.target.value)}
-                className="w-full px-3 py-2 border border-border-default rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
+                className="w-full h-9 px-3 text-sm border border-border-strong rounded-md focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-text mb-1.5">パスワード</label>
+              <label className="block text-xs font-medium text-text-secondary mb-1.5">パスワード</label>
               <input
                 type="password"
                 value={pw}
                 onChange={(e) => setPw(e.target.value)}
-                className="w-full px-3 py-2 border border-border-default rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
+                className="w-full h-9 px-3 text-sm border border-border-strong rounded-md focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent"
               />
             </div>
 
@@ -51,18 +52,15 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-6 pt-6 border-t border-border-default">
-            <div className="text-xs text-text-muted mb-2">デモアカウント(入力済み)</div>
-            <div className="text-xs text-text-secondary space-y-0.5">
-              <div>ID: demo@sakura-care.example.jp</div>
-              <div>PW: demo1234</div>
-              <div className="text-text-muted mt-2">※ 本モックアップでは認証は行わず、そのまま受講者画面へ遷移します</div>
+            <div className="text-[11px] text-text-muted leading-relaxed">
+              本モックでは認証を行いません。そのまま受講者画面へ遷移します。
             </div>
           </div>
         </div>
 
         <div className="text-center mt-6">
-          <Link href="/" className="text-xs text-text-secondary hover:text-brand transition-colors duration-300">
-            ← デモトップに戻る
+          <Link href="/" className="text-xs text-text-secondary hover:text-text">
+            ← デモトップ
           </Link>
         </div>
       </div>

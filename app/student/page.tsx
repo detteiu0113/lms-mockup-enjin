@@ -1,39 +1,44 @@
 // app/student/page.tsx
-// 受講者マイコース - 共通ベース + 業種別コースを表示
 import Link from "next/link";
 import PageHeader from "@/components/common/PageHeader";
-import Card from "@/components/common/Card";
+import Stat from "@/components/common/Stat";
 import ProgressBar from "@/components/common/ProgressBar";
 import Badge from "@/components/common/Badge";
+import Thumbnail from "@/components/common/Thumbnail";
 import { currentLearner } from "@/mocks/learners";
 import { getCoursesForLearner, getCourseProgress, getTotalWatchedSec, getIndustryName } from "@/lib/selectors";
-import { formatDuration } from "@/lib/format";
+import { formatDurationJP } from "@/lib/format";
 import type { Course } from "@/types";
 
-function CourseCard({ course }: { course: Course }) {
+function CourseRow({ course }: { course: Course }) {
   const pg = getCourseProgress(currentLearner.id, course.id);
+  const status =
+    pg.percent === 100 ? (
+      <Badge tone="success">修了</Badge>
+    ) : pg.percent > 0 ? (
+      <Badge tone="info">受講中</Badge>
+    ) : (
+      <Badge tone="neutral">未着手</Badge>
+    );
+
   return (
     <Link
       href={`/student/courses/${course.id}`}
-      className="block bg-surface border border-border-default rounded-lg p-5 hover:border-brand hover:shadow-sm transition-all duration-300"
+      className="flex items-center gap-4 p-4 bg-surface border border-border-default rounded-md hover:border-text-secondary transition-colors"
     >
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <div className="text-3xl">{course.thumbnail}</div>
-        {pg.percent === 100 ? (
-          <Badge tone="success">修了</Badge>
-        ) : pg.percent > 0 ? (
-          <Badge tone="info">受講中</Badge>
-        ) : (
-          <Badge tone="neutral">未着手</Badge>
-        )}
+      <Thumbnail label={course.title} seed={course.id} />
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1">
+          <div className="font-medium text-text truncate">{course.title}</div>
+          {status}
+        </div>
+        <p className="text-xs text-text-secondary line-clamp-1">{course.description}</p>
       </div>
-      <div className="text-base font-bold text-text mb-1">{course.title}</div>
-      <p className="text-xs text-text-secondary leading-relaxed mb-4 line-clamp-2">{course.description}</p>
-      <div className="mb-2">
-        <ProgressBar percent={pg.percent} showLabel />
-      </div>
-      <div className="text-xs text-text-muted">
-        {pg.completed} / {pg.total} 本視聴済み · 総尺 {formatDuration(pg.totalSec)}
+      <div className="w-36 flex-shrink-0">
+        <ProgressBar percent={pg.percent} size="sm" />
+        <div className="mt-1 text-[11px] text-text-muted tabular-nums">
+          {pg.completed} / {pg.total} 本
+        </div>
       </div>
     </Link>
   );
@@ -47,51 +52,32 @@ export default function StudentHome() {
     <>
       <PageHeader
         title={`こんにちは、${currentLearner.name}さん`}
-        description={`所属業種: ${getIndustryName(currentLearner.industryId)} · 受講開始: ${currentLearner.enrolledAt}`}
+        description={`所属業種: ${getIndustryName(currentLearner.industryId)} / 受講開始: ${currentLearner.enrolledAt}`}
       />
 
-      {/* サマリー */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <Card>
-          <div className="text-xs text-text-secondary mb-1">累計学習時間</div>
-          <div className="text-2xl font-bold text-text">{formatDuration(totalSec)}</div>
-          <div className="text-xs text-text-muted mt-1">助成金要件: 10時間以上</div>
-        </Card>
-        <Card>
-          <div className="text-xs text-text-secondary mb-1">受講中コース</div>
-          <div className="text-2xl font-bold text-text">{common.length + industry.length}</div>
-          <div className="text-xs text-text-muted mt-1">共通{common.length}本 + 業種別{industry.length}本</div>
-        </Card>
-        <Card>
-          <div className="text-xs text-text-secondary mb-1">ステータス</div>
-          <div className="text-2xl font-bold text-success">受講中</div>
-          <div className="text-xs text-text-muted mt-1">雇用保険被保険者 ✓</div>
-        </Card>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+        <Stat label="累計学習時間" value={formatDurationJP(totalSec)} hint="助成金要件: 10時間以上" />
+        <Stat label="受講コース" value={`${common.length + industry.length}`} hint={`共通 ${common.length} / 業種別 ${industry.length}`} />
+        <Stat label="ステータス" value={<span className="text-success text-[20px]">受講中</span>} hint="雇用保険被保険者" />
       </div>
 
-      {/* 共通ベースコース */}
       <section className="mb-10">
-        <h2 className="text-lg font-bold text-text mb-3">
-          共通ベースコース
-          <span className="ml-2 text-xs font-normal text-text-muted">全業種共通 · 営業・コミュニケーション基礎</span>
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {common.map((c) => (
-            <CourseCard key={c.id} course={c} />
-          ))}
+        <div className="mb-3 flex items-baseline justify-between">
+          <h2 className="text-sm font-semibold text-text">共通ベース</h2>
+          <span className="text-xs text-text-muted">全業種共通</span>
+        </div>
+        <div className="space-y-2">
+          {common.map((c) => <CourseRow key={c.id} course={c} />)}
         </div>
       </section>
 
-      {/* 業種別コース */}
       <section>
-        <h2 className="text-lg font-bold text-text mb-3">
-          {getIndustryName(currentLearner.industryId)}向けコース
-          <span className="ml-2 text-xs font-normal text-text-muted">あなたの業種に特化した内容</span>
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {industry.map((c) => (
-            <CourseCard key={c.id} course={c} />
-          ))}
+        <div className="mb-3 flex items-baseline justify-between">
+          <h2 className="text-sm font-semibold text-text">{getIndustryName(currentLearner.industryId)}向け</h2>
+          <span className="text-xs text-text-muted">業種別</span>
+        </div>
+        <div className="space-y-2">
+          {industry.map((c) => <CourseRow key={c.id} course={c} />)}
         </div>
       </section>
     </>

@@ -1,7 +1,6 @@
 // app/student/history/page.tsx
-// 学習履歴
 import PageHeader from "@/components/common/PageHeader";
-import Card from "@/components/common/Card";
+import Stat from "@/components/common/Stat";
 import ProgressBar from "@/components/common/ProgressBar";
 import Badge from "@/components/common/Badge";
 import { courses } from "@/mocks/courses";
@@ -9,103 +8,95 @@ import { videos } from "@/mocks/videos";
 import { progress } from "@/mocks/progress";
 import { currentLearner } from "@/mocks/learners";
 import { getCourseProgress, getTotalWatchedSec, getIndustryName } from "@/lib/selectors";
-import { formatDuration, formatDateTime } from "@/lib/format";
+import { formatDurationJP, formatDateTimeSec } from "@/lib/format";
 
 export default function HistoryPage() {
   const totalSec = getTotalWatchedSec(currentLearner.id);
   const myProgress = progress.filter((p) => p.learnerId === currentLearner.id);
-  const watchedVideos = myProgress.filter((p) => p.watchedSec > 0).slice(0, 10);
+  const recentSessions = myProgress
+    .filter((p) => p.sessions.length > 0)
+    .flatMap((p) => p.sessions.map((s) => ({ videoId: p.videoId, ...s })))
+    .sort((a, b) => (a.startedAt < b.startedAt ? 1 : -1))
+    .slice(0, 15);
 
-  const courseStats = courses.map((c) => ({
-    course: c,
-    pg: getCourseProgress(currentLearner.id, c.id),
-  }));
-
-  const tenHoursSec = 10 * 3600;
-  const pct10h = Math.min(100, Math.round((totalSec / tenHoursSec) * 100));
+  const courseStats = courses.map((c) => ({ course: c, pg: getCourseProgress(currentLearner.id, c.id) }));
+  const tenH = 10 * 3600;
+  const pct10h = Math.min(100, Math.round((totalSec / tenH) * 100));
 
   return (
     <>
-      <PageHeader
-        title="学習履歴"
-        description="助成金申請に必要な「累計学習時間」「視聴記録」をここで確認できます。"
-      />
+      <PageHeader title="学習履歴" description="累計学習時間と視聴記録(秒単位)" />
 
-      {/* 10時間要件の進捗 */}
-      <Card className="mb-6">
-        <div className="flex items-center justify-between mb-2">
-          <div className="text-sm font-bold text-text">助成金要件: 標準学習時間 10時間以上</div>
-          <Badge tone={pct10h === 100 ? "success" : "info"}>
-            {pct10h === 100 ? "達成" : "進行中"}
-          </Badge>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="md:col-span-3 bg-surface border border-border-default rounded-md p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <div className="text-xs text-text-secondary mb-1">助成金要件: 標準学習時間 10時間</div>
+              <div className="text-xl font-semibold text-text tabular-nums tracking-tight">{formatDurationJP(totalSec)}</div>
+            </div>
+            <Badge tone={pct10h === 100 ? "success" : "info"}>
+              {pct10h === 100 ? "達成" : `${pct10h}%`}
+            </Badge>
+          </div>
+          <ProgressBar percent={pct10h} />
         </div>
-        <ProgressBar percent={pct10h} />
-        <div className="mt-2 text-xs text-text-secondary">
-          累計視聴: <span className="font-bold">{formatDuration(totalSec)}</span> / 10時間
-        </div>
-      </Card>
+      </div>
 
-      {/* コース別集計 */}
-      <h2 className="text-base font-bold text-text mb-3">コース別 視聴集計</h2>
-      <Card padded={false} className="mb-8 overflow-hidden">
+      <h2 className="text-sm font-semibold text-text mb-3">コース別</h2>
+      <div className="bg-surface border border-border-default rounded-md overflow-hidden mb-10">
         <table className="w-full text-sm">
-          <thead className="bg-surface-muted text-xs text-text-secondary">
-            <tr>
-              <th className="text-left px-4 py-3 font-medium">コース</th>
-              <th className="text-left px-4 py-3 font-medium">業種</th>
-              <th className="text-left px-4 py-3 font-medium">進捗</th>
-              <th className="text-right px-4 py-3 font-medium">視聴時間</th>
-              <th className="text-right px-4 py-3 font-medium">視聴本数</th>
+          <thead className="text-xs text-text-muted bg-surface-subtle">
+            <tr className="border-b border-border-default">
+              <th className="text-left px-4 h-10 font-medium">コース</th>
+              <th className="text-left px-4 h-10 font-medium">業種</th>
+              <th className="text-left px-4 h-10 font-medium w-48">進捗</th>
+              <th className="text-right px-4 h-10 font-medium">視聴時間</th>
+              <th className="text-right px-4 h-10 font-medium">本数</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border-default">
             {courseStats.map(({ course, pg }) => (
-              <tr key={course.id} className="hover:bg-surface-muted transition-colors duration-300">
+              <tr key={course.id} className="hover:bg-surface-subtle">
                 <td className="px-4 py-3 font-medium text-text">{course.title}</td>
                 <td className="px-4 py-3 text-text-secondary">{getIndustryName(course.industryId)}</td>
-                <td className="px-4 py-3 w-48">
+                <td className="px-4 py-3">
                   <ProgressBar percent={pg.percent} size="sm" />
-                  <div className="text-xs text-text-muted mt-1">{pg.percent}%</div>
+                  <div className="text-[11px] text-text-muted mt-1 tabular-nums">{pg.percent}%</div>
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums">{formatDuration(pg.watchedSec)}</td>
-                <td className="px-4 py-3 text-right tabular-nums">
-                  {pg.completed} / {pg.total}
-                </td>
+                <td className="px-4 py-3 text-right tabular-nums">{formatDurationJP(pg.watchedSec)}</td>
+                <td className="px-4 py-3 text-right tabular-nums text-text-secondary">{pg.completed} / {pg.total}</td>
               </tr>
             ))}
           </tbody>
         </table>
-      </Card>
+      </div>
 
-      {/* 最新視聴動画 */}
-      <h2 className="text-base font-bold text-text mb-3">最近の視聴記録</h2>
-      <Card padded={false} className="overflow-hidden">
+      <h2 className="text-sm font-semibold text-text mb-3">最近の視聴セッション</h2>
+      <div className="bg-surface border border-border-default rounded-md overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-surface-muted text-xs text-text-secondary">
-            <tr>
-              <th className="text-left px-4 py-3 font-medium">動画</th>
-              <th className="text-left px-4 py-3 font-medium">最終視聴</th>
-              <th className="text-right px-4 py-3 font-medium">視聴秒数</th>
-              <th className="text-right px-4 py-3 font-medium">ステータス</th>
+          <thead className="text-xs text-text-muted bg-surface-subtle">
+            <tr className="border-b border-border-default">
+              <th className="text-left px-4 h-10 font-medium">動画</th>
+              <th className="text-left px-4 h-10 font-medium">視聴開始</th>
+              <th className="text-left px-4 h-10 font-medium">視聴終了</th>
+              <th className="text-right px-4 h-10 font-medium">視聴時間</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border-default">
-            {watchedVideos.map((p) => {
-              const v = videos.find((x) => x.id === p.videoId);
+            {recentSessions.map((s, i) => {
+              const v = videos.find((x) => x.id === s.videoId);
               return (
-                <tr key={p.videoId}>
-                  <td className="px-4 py-3 text-text">{v?.title ?? p.videoId}</td>
-                  <td className="px-4 py-3 text-text-secondary">{formatDateTime(p.lastWatchedAt)}</td>
-                  <td className="px-4 py-3 text-right tabular-nums">{p.watchedSec}秒</td>
-                  <td className="px-4 py-3 text-right">
-                    {p.completed ? <Badge tone="success">完了</Badge> : <Badge tone="info">途中</Badge>}
-                  </td>
+                <tr key={`${s.videoId}-${i}`} className="hover:bg-surface-subtle">
+                  <td className="px-4 py-3 text-text">{v?.title}</td>
+                  <td className="px-4 py-3 text-text-secondary tabular-nums">{formatDateTimeSec(s.startedAt)}</td>
+                  <td className="px-4 py-3 text-text-secondary tabular-nums">{formatDateTimeSec(s.endedAt)}</td>
+                  <td className="px-4 py-3 text-right tabular-nums">{formatDurationJP(s.durationSec)}</td>
                 </tr>
               );
             })}
           </tbody>
         </table>
-      </Card>
+      </div>
     </>
   );
 }

@@ -1,10 +1,9 @@
 // app/admin/industries/page.tsx
-// 業種管理 - 要件「業種追加時にコンテンツ運用側だけで追加可能な管理画面」
 "use client";
 
 import { useState } from "react";
+import { Plus, Tag } from "lucide-react";
 import PageHeader from "@/components/common/PageHeader";
-import Card from "@/components/common/Card";
 import Button from "@/components/common/Button";
 import Badge from "@/components/common/Badge";
 import { industries as initialIndustries } from "@/mocks/industries";
@@ -14,7 +13,7 @@ import { courses } from "@/mocks/courses";
 export default function IndustriesPage() {
   const [list, setList] = useState(initialIndustries);
   const [showForm, setShowForm] = useState(false);
-  const [draft, setDraft] = useState({ name: "", description: "", icon: "🏷️" });
+  const [draft, setDraft] = useState({ name: "", description: "" });
 
   const addIndustry = () => {
     if (!draft.name) return;
@@ -24,84 +23,77 @@ export default function IndustriesPage() {
         id: `ind-${Date.now()}`,
         name: draft.name,
         description: draft.description,
-        icon: draft.icon,
       },
     ]);
-    setDraft({ name: "", description: "", icon: "🏷️" });
+    setDraft({ name: "", description: "" });
     setShowForm(false);
   };
 
   return (
     <>
       <PageHeader
-        title="業種管理"
-        description="業種カテゴリの追加・編集ができます。新業種を追加すると、受講者側の業種選択画面にも反映されます。"
-        action={<Button onClick={() => setShowForm(!showForm)}>{showForm ? "キャンセル" : "+ 業種を追加"}</Button>}
+        title="業種"
+        description="業種カテゴリの追加はプロセル(コンテンツ運用)で行います。"
+        action={
+          <Button onClick={() => setShowForm(!showForm)} variant={showForm ? "secondary" : "primary"}>
+            {showForm ? "キャンセル" : (<><Plus size={14} /> 業種を追加</>)}
+          </Button>
+        }
       />
 
       {showForm && (
-        <Card className="mb-6">
-          <div className="text-sm font-bold text-text mb-4">新規業種の追加</div>
+        <div className="bg-surface border border-border-default rounded-md p-5 mb-6">
+          <div className="text-sm font-semibold text-text mb-4">新規業種の追加</div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-xs text-text-secondary mb-1">アイコン(絵文字)</label>
-              <input
-                value={draft.icon}
-                onChange={(e) => setDraft({ ...draft, icon: e.target.value })}
-                className="w-full px-3 py-2 border border-border-default rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-xs text-text-secondary mb-1">業種名</label>
+            <div className="md:col-span-1">
+              <label className="block text-[11px] text-text-secondary mb-1">業種名</label>
               <input
                 value={draft.name}
                 onChange={(e) => setDraft({ ...draft, name: e.target.value })}
-                placeholder="例: 飲食店、整骨院など"
-                className="w-full px-3 py-2 border border-border-default rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
+                placeholder="例: 飲食店"
+                className="w-full h-9 px-3 text-sm bg-surface border border-border-default rounded-md focus:outline-none focus:border-brand"
               />
             </div>
-            <div className="md:col-span-3">
-              <label className="block text-xs text-text-secondary mb-1">説明</label>
-              <textarea
+            <div className="md:col-span-2">
+              <label className="block text-[11px] text-text-secondary mb-1">説明</label>
+              <input
                 value={draft.description}
                 onChange={(e) => setDraft({ ...draft, description: e.target.value })}
-                rows={2}
-                className="w-full px-3 py-2 border border-border-default rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
+                placeholder="研修対象や特徴"
+                className="w-full h-9 px-3 text-sm bg-surface border border-border-default rounded-md focus:outline-none focus:border-brand"
               />
             </div>
           </div>
-          <div className="mt-4 flex gap-3">
+          <div className="mt-4 flex gap-2">
             <Button onClick={addIndustry}>追加する</Button>
             <Button variant="ghost" onClick={() => setShowForm(false)}>キャンセル</Button>
           </div>
-        </Card>
+        </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {list.map((ind) => {
           const compCount = companies.filter((c) => c.industryId === ind.id).length;
           const courseCount = courses.filter((c) => c.industryId === ind.id).length;
           return (
-            <Card key={ind.id}>
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div className="text-4xl">{ind.icon}</div>
-                  <div>
-                    <div className="font-bold text-text">{ind.name}</div>
-                    <div className="text-xs text-text-muted font-mono">{ind.id}</div>
-                  </div>
+            <div key={ind.id} className="bg-surface border border-border-default rounded-md p-5">
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Tag size={14} className="text-text-muted" />
+                  <div className="font-medium text-text">{ind.name}</div>
                 </div>
-                <div className="flex gap-2">
-                  <Badge tone="info">{compCount}社</Badge>
-                  <Badge tone="brand">{courseCount}コース</Badge>
+                <div className="flex gap-1.5">
+                  <Badge tone="neutral">{compCount}社</Badge>
+                  <Badge tone="info">{courseCount}コース</Badge>
                 </div>
               </div>
-              <p className="text-sm text-text-secondary leading-relaxed mb-3">{ind.description}</p>
-              <div className="flex gap-2 pt-3 border-t border-border-default">
+              <div className="text-[11px] text-text-muted font-mono mb-2">{ind.id}</div>
+              <p className="text-sm text-text-secondary leading-relaxed">{ind.description}</p>
+              <div className="flex gap-2 pt-3 mt-3 border-t border-border-default">
                 <Button variant="ghost" size="sm">編集</Button>
                 <Button variant="ghost" size="sm">コース割当</Button>
               </div>
-            </Card>
+            </div>
           );
         })}
       </div>

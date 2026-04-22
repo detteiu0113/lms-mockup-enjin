@@ -1,6 +1,4 @@
 // types/index.ts
-// LMSモックアップ用の型定義
-
 export type Role = "student" | "company" | "admin";
 
 /** 業種カテゴリ */
@@ -8,7 +6,6 @@ export interface Industry {
   id: string;
   name: string;
   description: string;
-  icon: string; // 絵文字またはアイコン名
 }
 
 /** クライアント企業 */
@@ -16,12 +13,13 @@ export interface Company {
   id: string;
   name: string;
   industryId: string;
+  size: "sme" | "large"; // 助成金区分
   contractedLearners: number;
-  contractStart: string; // ISO
+  contractStart: string;
   contractEnd: string;
 }
 
-/** 受講者（エンドユーザー） */
+/** 受講者 */
 export interface Learner {
   id: string;
   companyId: string;
@@ -29,17 +27,16 @@ export interface Learner {
   email: string;
   industryId: string;
   enrolledAt: string;
-  isInsured: boolean; // 雇用保険被保険者
+  isInsured: boolean;
 }
 
-/** コース（業種ごと or 共通） */
+/** コース */
 export interface Course {
   id: string;
   title: string;
   description: string;
-  industryId: string | null; // null = 共通ベース
+  industryId: string | null;
   videoIds: string[];
-  thumbnail: string;
 }
 
 /** 動画 */
@@ -48,12 +45,11 @@ export interface Video {
   courseId: string;
   title: string;
   description: string;
-  durationSec: number; // 尺（秒）
-  thumbnail: string;
+  durationSec: number;
   src: string;
 }
 
-/** 視聴進捗（受講者×動画） */
+/** 視聴進捗 */
 export interface VideoProgress {
   learnerId: string;
   videoId: string;

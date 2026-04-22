@@ -1,14 +1,14 @@
 // app/student/courses/[courseId]/videos/[videoId]/page.tsx
-// 動画再生ページ
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Card from "@/components/common/Card";
+import { ArrowLeft } from "lucide-react";
+import Stat from "@/components/common/Stat";
 import VideoPlayerClient from "./VideoPlayerClient";
 import { courses } from "@/mocks/courses";
 import { videos } from "@/mocks/videos";
 import { currentLearner } from "@/mocks/learners";
 import { getVideosByCourse, getProgressForLearnerVideo } from "@/lib/selectors";
-import { formatDurationClock, formatDuration } from "@/lib/format";
+import { formatDurationClock, formatDurationJP } from "@/lib/format";
 
 export default async function VideoPage({
   params,
@@ -28,19 +28,18 @@ export default async function VideoPage({
 
   return (
     <div>
-      <div className="mb-4">
-        <Link
-          href={`/student/courses/${course.id}`}
-          className="text-sm text-text-secondary hover:text-brand transition-colors duration-300"
-        >
-          ← {course.title}
-        </Link>
-      </div>
+      <Link
+        href={`/student/courses/${course.id}`}
+        className="inline-flex items-center gap-1 text-xs text-text-secondary hover:text-text mb-4"
+      >
+        <ArrowLeft size={12} />
+        {course.title}
+      </Link>
 
-      <div className="mb-2 text-xs text-text-muted">
-        第{curIdx + 1}回 / 全{allVideos.length}本
+      <div className="text-[11px] text-text-muted mb-1 tabular-nums">
+        {curIdx + 1} / {allVideos.length}
       </div>
-      <h1 className="text-xl font-bold text-text mb-4">{video.title}</h1>
+      <h1 className="text-xl font-semibold text-text mb-6 tracking-tight">{video.title}</h1>
 
       <div className="mb-6">
         <VideoPlayerClient
@@ -50,56 +49,41 @@ export default async function VideoPage({
         />
       </div>
 
-      <div className="grid md:grid-cols-3 gap-4 mb-6">
-        <Card>
-          <div className="text-xs text-text-secondary mb-1">動画尺</div>
-          <div className="text-lg font-bold text-text">{formatDurationClock(video.durationSec)}</div>
-        </Card>
-        <Card>
-          <div className="text-xs text-text-secondary mb-1">視聴済み時間</div>
-          <div className="text-lg font-bold text-text">{formatDuration(pg?.watchedSec ?? 0)}</div>
-        </Card>
-        <Card>
-          <div className="text-xs text-text-secondary mb-1">ステータス</div>
-          <div className="text-lg font-bold">
-            {pg?.completed ? (
-              <span className="text-success">視聴完了 ✓</span>
+      <div className="grid md:grid-cols-3 gap-4 mb-8">
+        <Stat label="動画尺" value={formatDurationClock(video.durationSec)} />
+        <Stat label="視聴済み時間" value={formatDurationJP(pg?.watchedSec ?? 0)} />
+        <Stat
+          label="ステータス"
+          value={
+            pg?.completed ? (
+              <span className="text-success text-[20px]">視聴完了</span>
+            ) : pg?.watchedSec ? (
+              <span className="text-info text-[20px]">再生中</span>
             ) : (
-              <span className="text-info">{pg?.watchedSec ? "再生中" : "未視聴"}</span>
-            )}
-          </div>
-        </Card>
+              <span className="text-text-muted text-[20px]">未視聴</span>
+            )
+          }
+        />
       </div>
 
-      <Card className="mb-6">
-        <div className="text-sm font-bold text-text mb-2">この動画について</div>
-        <p className="text-sm text-text-secondary leading-relaxed">{video.description}</p>
-      </Card>
+      <div className="bg-surface border border-border-default rounded-md p-5 mb-6">
+        <div className="text-xs text-text-muted mb-1.5">概要</div>
+        <p className="text-sm text-text leading-relaxed">{video.description}</p>
+      </div>
 
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4 text-sm">
         {prev ? (
-          <Link
-            href={`/student/courses/${course.id}/videos/${prev.id}`}
-            className="text-sm text-brand hover:underline"
-          >
+          <Link href={`/student/courses/${course.id}/videos/${prev.id}`} className="text-text-secondary hover:text-text">
             ← {prev.title}
           </Link>
-        ) : (
-          <span />
-        )}
+        ) : <span />}
         {next ? (
-          <Link
-            href={`/student/courses/${course.id}/videos/${next.id}`}
-            className="text-sm text-brand hover:underline"
-          >
+          <Link href={`/student/courses/${course.id}/videos/${next.id}`} className="text-text-secondary hover:text-text">
             {next.title} →
           </Link>
         ) : (
-          <Link
-            href={`/student/certificates/${course.id}`}
-            className="text-sm text-brand hover:underline"
-          >
-            修了証を確認する →
+          <Link href={`/student/certificates/${course.id}`} className="text-text hover:text-accent">
+            修了証を確認 →
           </Link>
         )}
       </div>
