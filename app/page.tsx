@@ -1,29 +1,36 @@
 // app/page.tsx
-// デモ用ランディング - 3ロール選択
+// デモ用ランディング - 4ロール選択
 import Link from "next/link";
-import { GraduationCap, Building2, Settings, ArrowRight } from "lucide-react";
+import { GraduationCap, Building2, Briefcase, Settings, ArrowRight } from "lucide-react";
 
 const roles = [
+  {
+    href: "/procell",
+    title: "プロセル",
+    subtitle: "開発・コンテンツ運用",
+    description: "業種・コース・動画のマスターデータを管理する開発側の画面。",
+    Icon: Settings,
+  },
+  {
+    href: "/enjin",
+    title: "合同会社えん人",
+    subtitle: "全クライアント・全受講者俯瞰",
+    description: "営業窓口として全クライアントの稼働状況・進捗を俯瞰する画面。",
+    Icon: Briefcase,
+  },
+  {
+    href: "/company",
+    title: "クライアント企業",
+    subtitle: "受講者管理・助成金証跡",
+    description: "自社受講者を管理し、リスキリング助成金申請用の証跡を出力する画面。",
+    Icon: Building2,
+  },
   {
     href: "/login",
     title: "受講者",
     subtitle: "動画視聴・学習履歴・修了証",
-    description: "クライアント企業の従業員として動画を視聴する画面",
+    description: "クライアント企業の従業員として動画を視聴する画面。",
     Icon: GraduationCap,
-  },
-  {
-    href: "/company",
-    title: "クライアント",
-    subtitle: "受講者管理・助成金証跡",
-    description: "自社従業員の受講状況を管理し、助成金申請用の証跡を出力",
-    Icon: Building2,
-  },
-  {
-    href: "/admin",
-    title: "管理者",
-    subtitle: "業種・コース・契約管理",
-    description: "プロセル(開発チーム)がプラットフォーム全体を運用する画面",
-    Icon: Settings,
   },
 ];
 
@@ -36,7 +43,7 @@ export default function LandingPage() {
             <div className="w-6 h-6 bg-brand rounded" />
             <div className="text-sm font-semibold tracking-tight">Enjin LMS</div>
           </div>
-          <div className="text-xs text-text-muted tabular-nums">Demo · v0.2</div>
+          <div className="text-xs text-text-muted tabular-nums">Demo · v0.3</div>
         </div>
       </header>
 
@@ -49,11 +56,11 @@ export default function LandingPage() {
               助成金証跡を両立するLMS
             </h1>
             <p className="text-text-secondary leading-relaxed">
-              合同会社えん人 LMS構築プロジェクトのデモ。以下の3ロールから画面をご確認ください。
+              合同会社えん人 LMS構築プロジェクトのデモ。プロセル(開発) → えん人(運営) → クライアント → 受講者 の4ロールから画面を確認できます。
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {roles.map((r) => (
               <Link
                 key={r.href}
@@ -81,9 +88,9 @@ export default function LandingPage() {
               <li>秒単位の視聴ログ記録</li>
               <li>累計学習時間 10時間要件トラッキング</li>
               <li>修了証の自動発行 (PDF)</li>
-              <li>業種別コース分岐 (4業種 + 拡張可能)</li>
+              <li>業種別コース分岐 (共通ベース + 業種別 2階層)</li>
               <li>受講者アカウント管理</li>
-              <li>助成金証跡 CSV / PDF エクスポート</li>
+              <li>助成金証跡 CSV / PDF エクスポート (クライアント側)</li>
               <li>助成金シミュレーション (中小 / 大企業)</li>
             </ul>
           </div>

@@ -1,4 +1,4 @@
-// app/admin/companies/page.tsx
+// app/enjin/companies/page.tsx
 import { Plus } from "lucide-react";
 import PageHeader from "@/components/common/PageHeader";
 import Button from "@/components/common/Button";
@@ -8,7 +8,7 @@ import { learners } from "@/mocks/learners";
 import { getIndustryName, getTotalWatchedSec } from "@/lib/selectors";
 import { formatDate, formatDurationJP } from "@/lib/format";
 
-export default function AdminCompaniesPage() {
+export default function EnjinCompaniesPage() {
   return (
     <>
       <PageHeader
@@ -28,13 +28,12 @@ export default function AdminCompaniesPage() {
               <th className="text-right px-4 h-10 font-medium">登録受講者</th>
               <th className="text-right px-4 h-10 font-medium">累計学習</th>
               <th className="text-left px-4 h-10 font-medium">契約期間</th>
-              <th className="text-right px-4 h-10 font-medium w-16"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border-default">
             {companies.map((c) => {
-              const companyLearners = learners.filter((l) => l.companyId === c.id);
-              const totalSec = companyLearners.reduce((acc, l) => acc + getTotalWatchedSec(l.id), 0);
+              const ls = learners.filter((l) => l.companyId === c.id);
+              const totalSec = ls.reduce((acc, l) => acc + getTotalWatchedSec(l.id), 0);
               const active = new Date(c.contractEnd) >= new Date();
               return (
                 <tr key={c.id} className="hover:bg-surface-subtle">
@@ -45,16 +44,13 @@ export default function AdminCompaniesPage() {
                   <td className="px-4 py-3 text-text-secondary">{getIndustryName(c.industryId)}</td>
                   <td className="px-4 py-3 text-text-secondary">{c.size === "sme" ? "中小" : "大企業"}</td>
                   <td className="px-4 py-3 text-right tabular-nums text-text-secondary">{c.contractedLearners}</td>
-                  <td className="px-4 py-3 text-right tabular-nums text-text-secondary">{companyLearners.length}</td>
+                  <td className="px-4 py-3 text-right tabular-nums text-text-secondary">{ls.length}</td>
                   <td className="px-4 py-3 text-right tabular-nums text-text-secondary">{formatDurationJP(totalSec)}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2 text-[11px] text-text-secondary tabular-nums">
                       <span>{formatDate(c.contractStart)} 〜 {formatDate(c.contractEnd)}</span>
                       {active ? <Badge tone="success">稼働中</Badge> : <Badge tone="neutral">満了</Badge>}
                     </div>
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <button className="text-xs text-brand hover:underline">詳細</button>
                   </td>
                 </tr>
               );

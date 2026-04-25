@@ -1,4 +1,4 @@
-// app/admin/industries/page.tsx
+// app/procell/industries/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -33,7 +33,7 @@ export default function IndustriesPage() {
     <>
       <PageHeader
         title="業種"
-        description="業種カテゴリの追加はプロセル(コンテンツ運用)で行います。"
+        description="業種カテゴリの追加・編集はプロセル(コンテンツ運用)が担当します。"
         action={
           <Button onClick={() => setShowForm(!showForm)} variant={showForm ? "secondary" : "primary"}>
             {showForm ? "キャンセル" : (<><Plus size={14} /> 業種を追加</>)}
@@ -89,10 +89,6 @@ export default function IndustriesPage() {
               </div>
               <div className="text-[11px] text-text-muted font-mono mb-2">{ind.id}</div>
               <p className="text-sm text-text-secondary leading-relaxed">{ind.description}</p>
-              <div className="flex gap-2 pt-3 mt-3 border-t border-border-default">
-                <Button variant="ghost" size="sm">編集</Button>
-                <Button variant="ghost" size="sm">コース割当</Button>
-              </div>
             </div>
           );
         })}

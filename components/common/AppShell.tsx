@@ -38,13 +38,20 @@ const navMap: Record<Role, { appName: string; items: NavItem[] }> = {
       { href: "/company/export", label: "助成金エクスポート", icon: FileDown },
     ],
   },
-  admin: {
+  enjin: {
+    appName: "Enjin LMS / 合同会社えん人",
+    items: [
+      { href: "/enjin", label: "概要", icon: Home },
+      { href: "/enjin/companies", label: "クライアント企業", icon: Building2 },
+      { href: "/enjin/learners", label: "受講者", icon: Users },
+    ],
+  },
+  procell: {
     appName: "Enjin LMS / プロセル",
     items: [
-      { href: "/admin", label: "概要", icon: Home },
-      { href: "/admin/industries", label: "業種", icon: Tags },
-      { href: "/admin/courses", label: "コース・動画", icon: LibraryBig },
-      { href: "/admin/companies", label: "クライアント企業", icon: Building2 },
+      { href: "/procell", label: "概要", icon: Home },
+      { href: "/procell/industries", label: "業種", icon: Tags },
+      { href: "/procell/courses", label: "コース・動画", icon: LibraryBig },
     ],
   },
 };
