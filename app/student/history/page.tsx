@@ -31,7 +31,7 @@ export default function HistoryPage() {
         <div className="md:col-span-3 bg-surface border border-border-default rounded-md p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <div className="text-xs text-text-secondary mb-1">助成金要件: 標準学習時間 10時間</div>
+              <div className="text-xs text-text-secondary mb-1">学習目標: 10時間</div>
               <div className="text-xl font-semibold text-text tabular-nums tracking-tight">{formatDurationJP(totalSec)}</div>
             </div>
             <Badge tone={pct10h === 100 ? "success" : "info"}>

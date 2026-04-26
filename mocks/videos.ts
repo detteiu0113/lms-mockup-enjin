@@ -5,7 +5,7 @@ const SAMPLE_MP4 = "https://commondatastorage.googleapis.com/gtv-videos-bucket/s
 
 export const videos: Video[] = [
   // 共通: 営業の基礎
-  { id: "vid-cs-01", courseId: "crs-common-sales", title: "第1回 BtoB営業の全体像", description: "営業プロセスの俯瞰と、助成金対象業種での活用イメージ", durationSec: 2100, src: SAMPLE_MP4 },
+  { id: "vid-cs-01", courseId: "crs-common-sales", title: "第1回 BtoB営業の全体像", description: "営業プロセスの全体像とサービス業での活用イメージ", durationSec: 2100, src: SAMPLE_MP4 },
   { id: "vid-cs-02", courseId: "crs-common-sales", title: "第2回 信頼構築の3原則", description: "初対面で信頼されるための姿勢・発声・傾聴", durationSec: 1980, src: SAMPLE_MP4 },
   { id: "vid-cs-03", courseId: "crs-common-sales", title: "第3回 ヒアリングフレーム", description: "SPIN法をベースにした顧客ヒアリングの型", durationSec: 2400, src: SAMPLE_MP4 },
   { id: "vid-cs-04", courseId: "crs-common-sales", title: "第4回 クロージング技法", description: "意思決定を促すクロージングの言語化", durationSec: 2250, src: SAMPLE_MP4 },

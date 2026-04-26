@@ -5,8 +5,8 @@ import { GraduationCap, Building2, Briefcase, Settings, ArrowRight } from "lucid
 
 const roles = [
   {
-    href: "/procell",
-    title: "プロセル",
+    href: "/nomiel",
+    title: "NOMIEL",
     subtitle: "開発・コンテンツ運用",
     description: "業種・コース・動画のマスターデータを管理する開発側の画面。",
     Icon: Settings,
@@ -21,8 +21,8 @@ const roles = [
   {
     href: "/company",
     title: "クライアント企業",
-    subtitle: "受講者管理・助成金証跡",
-    description: "自社受講者を管理し、リスキリング助成金申請用の証跡を出力する画面。",
+    subtitle: "受講者管理・学習記録",
+    description: "自社受講者を管理し、学習記録をCSV/PDFで出力する画面。",
     Icon: Building2,
   },
   {
@@ -43,7 +43,7 @@ export default function LandingPage() {
             <div className="w-6 h-6 bg-brand rounded" />
             <div className="text-sm font-semibold tracking-tight">Enjin LMS</div>
           </div>
-          <div className="text-xs text-text-muted tabular-nums">Demo · v0.3</div>
+          <div className="text-xs text-text-muted tabular-nums">Demo · v0.4</div>
         </div>
       </header>
 
@@ -52,11 +52,11 @@ export default function LandingPage() {
           <div className="max-w-2xl mb-14">
             <div className="text-xs font-medium text-accent mb-4 tracking-wide uppercase">Preview</div>
             <h1 className="text-4xl font-semibold text-text tracking-tight leading-tight mb-4">
-              業種別カリキュラムと<br />
-              助成金証跡を両立するLMS
+              業種別カリキュラムで<br />
+              現場の営業力を底上げするLMS
             </h1>
             <p className="text-text-secondary leading-relaxed">
-              合同会社えん人 LMS構築プロジェクトのデモ。プロセル(開発) → えん人(運営) → クライアント → 受講者 の4ロールから画面を確認できます。
+              合同会社えん人 LMS構築プロジェクトのデモ。NOMIEL(開発) → えん人(運営) → クライアント → 受講者 の4ロールから画面を確認できます。
             </p>
           </div>
 
@@ -86,12 +86,12 @@ export default function LandingPage() {
             <ul className="grid sm:grid-cols-2 gap-x-10 gap-y-2 text-sm text-text-secondary">
               <li>動画ストリーミング再生 / レジューム</li>
               <li>秒単位の視聴ログ記録</li>
-              <li>累計学習時間 10時間要件トラッキング</li>
+              <li>累計学習時間の自動集計</li>
               <li>修了証の自動発行 (PDF)</li>
               <li>業種別コース分岐 (共通ベース + 業種別 2階層)</li>
               <li>受講者アカウント管理</li>
-              <li>助成金証跡 CSV / PDF エクスポート (クライアント側)</li>
-              <li>助成金シミュレーション (中小 / 大企業)</li>
+              <li>学習記録 CSV / PDF エクスポート</li>
+              <li>業種マスタ管理 (NOMIEL側)</li>
             </ul>
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function LandingPage() {
 
       <footer className="border-t border-border-default bg-surface">
         <div className="max-w-5xl mx-auto px-6 h-12 flex items-center justify-between text-xs text-text-muted">
-          <div>Procell × 合同会社えん人</div>
+          <div>NOMIEL × 合同会社えん人</div>
           <div>Confidential</div>
         </div>
       </footer>

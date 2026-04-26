@@ -1,5 +1,5 @@
 // types/index.ts
-export type Role = "student" | "company" | "enjin" | "procell";
+export type Role = "student" | "company" | "enjin" | "nomiel";
 
 /** 業種カテゴリ */
 export interface Industry {
@@ -13,7 +13,6 @@ export interface Company {
   id: string;
   name: string;
   industryId: string;
-  size: "sme" | "large"; // 助成金区分
   contractedLearners: number;
   contractStart: string;
   contractEnd: string;
@@ -27,7 +26,6 @@ export interface Learner {
   email: string;
   industryId: string;
   enrolledAt: string;
-  isInsured: boolean;
 }
 
 /** コース */

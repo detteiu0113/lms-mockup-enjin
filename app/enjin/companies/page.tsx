@@ -23,7 +23,6 @@ export default function EnjinCompaniesPage() {
             <tr className="border-b border-border-default">
               <th className="text-left px-4 h-10 font-medium">企業名</th>
               <th className="text-left px-4 h-10 font-medium">業種</th>
-              <th className="text-left px-4 h-10 font-medium">規模</th>
               <th className="text-right px-4 h-10 font-medium">契約枠</th>
               <th className="text-right px-4 h-10 font-medium">登録受講者</th>
               <th className="text-right px-4 h-10 font-medium">累計学習</th>
@@ -42,7 +41,6 @@ export default function EnjinCompaniesPage() {
                     <div className="text-[11px] text-text-muted font-mono">{c.id}</div>
                   </td>
                   <td className="px-4 py-3 text-text-secondary">{getIndustryName(c.industryId)}</td>
-                  <td className="px-4 py-3 text-text-secondary">{c.size === "sme" ? "中小" : "大企業"}</td>
                   <td className="px-4 py-3 text-right tabular-nums text-text-secondary">{c.contractedLearners}</td>
                   <td className="px-4 py-3 text-right tabular-nums text-text-secondary">{ls.length}</td>
                   <td className="px-4 py-3 text-right tabular-nums text-text-secondary">{formatDurationJP(totalSec)}</td>

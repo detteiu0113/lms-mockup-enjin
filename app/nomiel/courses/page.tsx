@@ -1,4 +1,4 @@
-// app/procell/courses/page.tsx
+// app/nomiel/courses/page.tsx
 import PageHeader from "@/components/common/PageHeader";
 import Badge from "@/components/common/Badge";
 import Thumbnail from "@/components/common/Thumbnail";
@@ -7,12 +7,12 @@ import { videos } from "@/mocks/videos";
 import { getIndustryName } from "@/lib/selectors";
 import { formatDurationClock } from "@/lib/format";
 
-export default function ProcellCoursesPage() {
+export default function NomielCoursesPage() {
   return (
     <>
       <PageHeader
         title="コース・動画"
-        description="あらかじめ定められたコースと動画の枠組み。追加はプロセル開発工程で実施。"
+        description="あらかじめ定められたコースと動画の枠組み。追加はNOMIEL開発工程で実施。"
       />
 
       <div className="space-y-3">

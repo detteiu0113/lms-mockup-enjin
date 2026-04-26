@@ -3,7 +3,6 @@ import Link from "next/link";
 import { UserPlus, ArrowRight } from "lucide-react";
 import PageHeader from "@/components/common/PageHeader";
 import Button from "@/components/common/Button";
-import Badge from "@/components/common/Badge";
 import { DEMO_COMPANY_ID } from "@/lib/companyDemo";
 import { getLearnersByCompany, getTotalWatchedSec, getIndustryName } from "@/lib/selectors";
 import { formatDurationJP, formatDate } from "@/lib/format";
@@ -27,7 +26,6 @@ export default function LearnersPage() {
               <th className="text-left px-4 h-10 font-medium">氏名</th>
               <th className="text-left px-4 h-10 font-medium">業種</th>
               <th className="text-left px-4 h-10 font-medium">受講開始</th>
-              <th className="text-left px-4 h-10 font-medium">雇用保険</th>
               <th className="text-left px-4 h-10 font-medium">累計視聴</th>
               <th className="text-right px-4 h-10 font-medium w-16"></th>
             </tr>
@@ -42,9 +40,6 @@ export default function LearnersPage() {
                 </td>
                 <td className="px-4 py-3 text-text-secondary">{getIndustryName(l.industryId)}</td>
                 <td className="px-4 py-3 text-text-secondary tabular-nums">{formatDate(l.enrolledAt)}</td>
-                <td className="px-4 py-3">
-                  {l.isInsured ? <Badge tone="success">被保険者</Badge> : <Badge tone="warning">未加入</Badge>}
-                </td>
                 <td className="px-4 py-3 tabular-nums text-text-secondary">{formatDurationJP(getTotalWatchedSec(l.id))}</td>
                 <td className="px-4 py-3 text-right">
                   <Link href={`/company/learners/${l.id}`} className="inline-flex items-center gap-1 text-brand text-xs hover:underline">

@@ -1,4 +1,4 @@
-// app/procell/industries/page.tsx
+// app/nomiel/industries/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -33,7 +33,7 @@ export default function IndustriesPage() {
     <>
       <PageHeader
         title="業種"
-        description="業種カテゴリの追加・編集はプロセル(コンテンツ運用)が担当します。"
+        description="業種カテゴリの追加・編集はNOMIEL(コンテンツ運用)が担当します。"
         action={
           <Button onClick={() => setShowForm(!showForm)} variant={showForm ? "secondary" : "primary"}>
             {showForm ? "キャンセル" : (<><Plus size={14} /> 業種を追加</>)}

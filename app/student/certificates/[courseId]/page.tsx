@@ -54,7 +54,7 @@ export default async function CertificateDetailPage({
       />
 
       <div className="mt-6 text-[11px] text-text-muted">
-        実サービスではこの画面からPDFをダウンロードできます。助成金支給申請に添付可能です。
+        実サービスではこの画面からPDFをダウンロードできます。学習修了の証明としてご活用いただけます。
       </div>
     </>
   );

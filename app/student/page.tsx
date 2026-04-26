@@ -56,9 +56,9 @@ export default function StudentHome() {
       />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-        <Stat label="累計学習時間" value={formatDurationJP(totalSec)} hint="助成金要件: 10時間以上" />
+        <Stat label="累計学習時間" value={formatDurationJP(totalSec)} hint="学習目標: 10時間" />
         <Stat label="受講コース" value={`${common.length + industry.length}`} hint={`共通 ${common.length} / 業種別 ${industry.length}`} />
-        <Stat label="ステータス" value={<span className="text-success text-[20px]">受講中</span>} hint="雇用保険被保険者" />
+        <Stat label="ステータス" value={<span className="text-success text-[20px]">受講中</span>} hint="アクティブ" />
       </div>
 
       <section className="mb-10">

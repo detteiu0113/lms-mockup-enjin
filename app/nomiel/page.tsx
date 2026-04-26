@@ -1,4 +1,4 @@
-// app/procell/page.tsx
+// app/nomiel/page.tsx
 import PageHeader from "@/components/common/PageHeader";
 import Badge from "@/components/common/Badge";
 import { courses } from "@/mocks/courses";
@@ -7,21 +7,21 @@ import { industries } from "@/mocks/industries";
 import { getIndustryName } from "@/lib/selectors";
 import { formatDurationClock } from "@/lib/format";
 
-export default function ProcellOverview() {
+export default function NomielOverview() {
   const totalSec = videos.reduce((acc, v) => acc + v.durationSec, 0);
 
   return (
     <>
       <PageHeader
         title="マスターデータ概要"
-        description="プロセル(開発・コンテンツ運用)が管理する業種・コース・動画の状況"
+        description="NOMIEL(開発・コンテンツ運用)が管理する業種・コース・動画の状況"
       />
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
         <div className="bg-surface border border-border-default rounded-md p-5">
           <div className="text-xs text-text-secondary mb-1">業種</div>
           <div className="text-[22px] font-semibold text-text tabular-nums tracking-tight">{industries.length}</div>
-          <div className="text-[11px] text-text-muted mt-1">追加・編集はプロセルのみ</div>
+          <div className="text-[11px] text-text-muted mt-1">追加・編集はNOMIELのみ</div>
         </div>
         <div className="bg-surface border border-border-default rounded-md p-5">
           <div className="text-xs text-text-secondary mb-1">コース</div>

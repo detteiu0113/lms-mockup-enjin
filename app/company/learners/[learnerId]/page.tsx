@@ -12,6 +12,9 @@ import { companies } from "@/mocks/companies";
 import { getLearnerById, getCourseProgress, getTotalWatchedSec, getIndustryName } from "@/lib/selectors";
 import { formatDurationJP, formatDate, formatDateTimeSec } from "@/lib/format";
 
+const TARGET_HOURS = 10;
+const TARGET_SEC = TARGET_HOURS * 3600;
+
 export default async function LearnerDetail({ params }: { params: Promise<{ learnerId: string }> }) {
   const { learnerId } = await params;
   const learner = getLearnerById(learnerId);
@@ -19,8 +22,7 @@ export default async function LearnerDetail({ params }: { params: Promise<{ lear
   const company = companies.find((c) => c.id === learner.companyId);
 
   const totalSec = getTotalWatchedSec(learner.id);
-  const tenH = 10 * 3600;
-  const pct10h = Math.min(100, Math.round((totalSec / tenH) * 100));
+  const pctTarget = Math.min(100, Math.round((totalSec / TARGET_SEC) * 100));
 
   const learnerCourses = courses.filter((c) => c.industryId === null || c.industryId === learner.industryId);
 
@@ -42,7 +44,7 @@ export default async function LearnerDetail({ params }: { params: Promise<{ lear
         description={`${company?.name ?? ""} ・ ${getIndustryName(learner.industryId)} ・ ${learner.id}`}
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
         <div className="bg-surface border border-border-default rounded-md p-5">
           <div className="text-xs text-text-secondary mb-1">受講開始</div>
           <div className="text-sm font-semibold text-text tabular-nums">{formatDate(learner.enrolledAt)}</div>
@@ -52,14 +54,10 @@ export default async function LearnerDetail({ params }: { params: Promise<{ lear
           <div className="text-sm font-semibold text-text tabular-nums">{formatDurationJP(totalSec)}</div>
         </div>
         <div className="bg-surface border border-border-default rounded-md p-5">
-          <div className="text-xs text-text-secondary mb-1">10時間要件</div>
+          <div className="text-xs text-text-secondary mb-1">学習目標 {TARGET_HOURS}h</div>
           <div className="text-sm font-semibold">
-            {pct10h === 100 ? <Badge tone="success">達成</Badge> : <span className="text-text tabular-nums">{pct10h}%</span>}
+            {pctTarget === 100 ? <Badge tone="success">達成</Badge> : <span className="text-text tabular-nums">{pctTarget}%</span>}
           </div>
-        </div>
-        <div className="bg-surface border border-border-default rounded-md p-5">
-          <div className="text-xs text-text-secondary mb-1">雇用保険被保険者</div>
-          <div className="text-sm font-semibold text-text">{learner.isInsured ? "加入" : "未加入"}</div>
         </div>
       </div>
 
@@ -95,7 +93,7 @@ export default async function LearnerDetail({ params }: { params: Promise<{ lear
         </table>
       </div>
 
-      <h2 className="text-sm font-semibold text-text mb-1">視聴セッション(助成金証跡)</h2>
+      <h2 className="text-sm font-semibold text-text mb-1">視聴セッション</h2>
       <div className="text-[11px] text-text-muted mb-3">開始・終了時刻は秒単位で記録されます。</div>
       <div className="bg-surface border border-border-default rounded-md overflow-hidden">
         <table className="w-full text-sm">

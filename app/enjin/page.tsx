@@ -35,11 +35,11 @@ export default function EnjinOverview() {
           <div className="text-[11px] text-text-muted mt-1">在籍ベース</div>
         </div>
         <div className="bg-surface border border-border-default rounded-md p-5">
-          <div className="text-xs text-text-secondary mb-1">10時間達成</div>
+          <div className="text-xs text-text-secondary mb-1">学習目標 10h 達成</div>
           <div className="text-[22px] font-semibold text-text tabular-nums tracking-tight">
             {eligibleCount}<span className="text-sm font-normal text-text-muted ml-1">/ {learners.length}</span>
           </div>
-          <div className="text-[11px] text-text-muted mt-1">支給要件達成者</div>
+          <div className="text-[11px] text-text-muted mt-1">累計視聴 10時間以上</div>
         </div>
         <div className="bg-surface border border-border-default rounded-md p-5">
           <div className="text-xs text-text-secondary mb-1">累計学習時間</div>
@@ -56,7 +56,7 @@ export default function EnjinOverview() {
               <th className="text-left px-4 h-10 font-medium">企業</th>
               <th className="text-left px-4 h-10 font-medium">業種</th>
               <th className="text-right px-4 h-10 font-medium">受講者</th>
-              <th className="text-right px-4 h-10 font-medium">10時間達成</th>
+              <th className="text-right px-4 h-10 font-medium">学習目標達成</th>
               <th className="text-right px-4 h-10 font-medium">累計学習</th>
               <th className="text-left px-4 h-10 font-medium w-44">平均進捗</th>
               <th className="text-left px-4 h-10 font-medium">契約期間</th>
@@ -78,7 +78,7 @@ export default function EnjinOverview() {
                 <tr key={c.id} className="hover:bg-surface-subtle">
                   <td className="px-4 py-3">
                     <div className="font-medium text-text">{c.name}</div>
-                    <div className="text-[11px] text-text-muted">{c.size === "sme" ? "中小" : "大企業"}</div>
+                    <div className="text-[11px] text-text-muted font-mono">{c.id}</div>
                   </td>
                   <td className="px-4 py-3 text-text-secondary">{getIndustryName(c.industryId)}</td>
                   <td className="px-4 py-3 text-right tabular-nums text-text-secondary">{ls.length} / {c.contractedLearners}</td>

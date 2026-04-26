@@ -9,7 +9,6 @@ export const learners: Learner[] = [
     email: "sato.misaki@sakura-care.example.jp",
     industryId: "ind-homecare",
     enrolledAt: "2026-03-05",
-    isInsured: true,
   },
   {
     id: "lrn-002",
@@ -18,7 +17,6 @@ export const learners: Learner[] = [
     email: "tanaka.ken@sakura-care.example.jp",
     industryId: "ind-homecare",
     enrolledAt: "2026-03-05",
-    isInsured: true,
   },
   {
     id: "lrn-003",
@@ -27,7 +25,6 @@ export const learners: Learner[] = [
     email: "suzuki.yumi@sakura-care.example.jp",
     industryId: "ind-homecare",
     enrolledAt: "2026-03-10",
-    isInsured: true,
   },
   {
     id: "lrn-004",
@@ -36,7 +33,6 @@ export const learners: Learner[] = [
     email: "takahashi@manabi.example.jp",
     industryId: "ind-juku",
     enrolledAt: "2026-04-03",
-    isInsured: true,
   },
   {
     id: "lrn-005",
@@ -45,7 +41,6 @@ export const learners: Learner[] = [
     email: "watanabe@manabi.example.jp",
     industryId: "ind-juku",
     enrolledAt: "2026-04-03",
-    isInsured: true,
   },
   {
     id: "lrn-006",
@@ -54,7 +49,6 @@ export const learners: Learner[] = [
     email: "yamamoto@beauty-lab.example.jp",
     industryId: "ind-esthe",
     enrolledAt: "2026-02-20",
-    isInsured: true,
   },
   {
     id: "lrn-007",
@@ -63,7 +57,6 @@ export const learners: Learner[] = [
     email: "nakamura@grace-clinic.example.jp",
     industryId: "ind-clinic",
     enrolledAt: "2026-04-05",
-    isInsured: true,
   },
 ];
 

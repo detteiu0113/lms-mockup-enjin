@@ -35,7 +35,7 @@ const navMap: Record<Role, { appName: string; items: NavItem[] }> = {
     items: [
       { href: "/company", label: "ダッシュボード", icon: LayoutDashboard },
       { href: "/company/learners", label: "受講者", icon: Users },
-      { href: "/company/export", label: "助成金エクスポート", icon: FileDown },
+      { href: "/company/export", label: "学習記録エクスポート", icon: FileDown },
     ],
   },
   enjin: {
@@ -46,12 +46,12 @@ const navMap: Record<Role, { appName: string; items: NavItem[] }> = {
       { href: "/enjin/learners", label: "受講者", icon: Users },
     ],
   },
-  procell: {
-    appName: "Enjin LMS / プロセル",
+  nomiel: {
+    appName: "Enjin LMS / NOMIEL",
     items: [
-      { href: "/procell", label: "概要", icon: Home },
-      { href: "/procell/industries", label: "業種", icon: Tags },
-      { href: "/procell/courses", label: "コース・動画", icon: LibraryBig },
+      { href: "/nomiel", label: "概要", icon: Home },
+      { href: "/nomiel/industries", label: "業種", icon: Tags },
+      { href: "/nomiel/courses", label: "コース・動画", icon: LibraryBig },
     ],
   },
 };

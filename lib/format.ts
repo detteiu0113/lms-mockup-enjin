@@ -40,31 +40,3 @@ export function formatDateTimeSec(iso: string): string {
 function pad(n: number) {
   return String(n).padStart(2, "0");
 }
-
-/** 助成金シミュレーション */
-export type CompanySize = "sme" | "large";
-export interface SubsidySim {
-  pricePerPerson: number; // えん人単価(円)
-  subsidyRate: number; // 助成率
-  cap: number; // 1人上限
-  subsidyPerPerson: number; // 1人あたり助成額
-  netCostPerPerson: number; // 実質負担
-}
-
-export function simulateSubsidy(pricePerPerson: number, size: CompanySize): SubsidySim {
-  const rate = size === "sme" ? 0.75 : 0.6;
-  const cap = size === "sme" ? 300000 : 200000;
-  const raw = pricePerPerson * rate;
-  const subsidy = Math.min(raw, cap);
-  return {
-    pricePerPerson,
-    subsidyRate: rate,
-    cap,
-    subsidyPerPerson: subsidy,
-    netCostPerPerson: pricePerPerson - subsidy,
-  };
-}
-
-export function formatYen(amount: number): string {
-  return `¥${amount.toLocaleString()}`;
-}
